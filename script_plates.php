@@ -73,25 +73,25 @@ class MatriculasCSV {
 
         // if file don't exists create it.
         if( !file_exists(NAME_FILE) ) {
-            $newCSV = fopen(NAME_FILE, 'w');
+            $newFile = fopen(NAME_FILE, 'w');
         }
 
         // if file exists delete it and create a new one.
         if( unlink(NAME_FILE) ) {
-            $newCSV = fopen(NAME_FILE, 'w');
+            $newFile = fopen(NAME_FILE, 'w');
         }
 
-        fputs($newCSV, "Identificador, Descripción". PHP_EOL);
+        fputs($newFile, "Identificador, Descripción". PHP_EOL);
         foreach($plates as $plate) {
             if($this->pmr) {
-                fputs($newCSV, $plate.',Matricula PMR '.$plate . PHP_EOL);
+                fputs($newFile, $plate.',Matricula PMR '.$plate . PHP_EOL);
             }else {
-                fputs($newCSV, $plate.',Residente autorizado sector '.$sector.' vehiculo '.$plate . PHP_EOL);
+                fputs($newFile, $plate.',Residente autorizado sector '.$sector.' vehiculo '.$plate . PHP_EOL);
             }
         }
-        fclose($newCSV);
+        fclose($newFile);
 
-        return (isset($newCSV)) ? true : false;
+        return (isset($newFile)) ? true : false;
     }
 
     /**
