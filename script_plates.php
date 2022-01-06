@@ -1,7 +1,21 @@
 <?php
 
+/**
+ * 
+ * Description: It process licence plates using a filter by pmr or sector and It return a file with differences.
+ * 
+ * Author: Daniel Olivet Jiménez @daniolivet
+ * 
+ * Usage:
+ *      Execute this script in the same directory where are this csv files.
+ * 
+ *      - SECTOR => php -f script_plates.php sector=<number_sector>fileCSV=<name_file1> fileCSV2=<name_file2>
+ *      - PMR => php -f script_plates.php fileCSV=<name_file1> fileCSV2=<name_file2> pmr=1
+ * 
+ */
+
 /* Constans */
-define('NAME_FILE', 'matriculas_nuevas.csv');
+define('NAME_FILE', 'new_plates.csv');
 
 class MatriculasCSV {
 
@@ -12,7 +26,7 @@ class MatriculasCSV {
     protected $plates = [];
     protected $smassa_plates = [];
     protected $plates_diff = [];
-
+    
     public function __construct( Array $args = [] ){
         array_shift($args);
         $cnf = [];
@@ -39,7 +53,7 @@ class MatriculasCSV {
      * @return void
      */
     public function getPlates() {
-        if(!$this->getDiffSectores()) {
+        if(!$this->getDiff()) {
             die("Don't exists differences" . PHP_EOL);
         }
 
@@ -85,7 +99,7 @@ class MatriculasCSV {
      * @param array $cnf
      * @return array|void
      */
-    private function getCnf(array $args, array $cnf)
+    private function getCnf(Array $args, Array $cnf)
     {
         foreach ($args as $param) {
 
@@ -103,7 +117,7 @@ class MatriculasCSV {
     /**
      * @return bool|void
      */
-    private function getDiffSectores() {
+    private function getDiff() {
 
         if($this->pmr) {
             while (array_shift($this->csv) && !empty($this->csv)) {
